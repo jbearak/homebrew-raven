@@ -21,8 +21,11 @@ permissions:
 
 jobs:
   test:
-    # macos-14 = Apple Silicon (arm64). The formula is arm64-only.
-    runs-on: macos-14
+    # macos-latest tracks the newest stable runner image, which is Apple
+    # Silicon (arm64) — matching the arm64-only formula. The runner version is
+    # not a compatibility gate (the binary's min-macOS comes from raven's Rust
+    # build); this just smoke-tests install + run on a current OS.
+    runs-on: macos-latest
     steps:
       - name: Checkout tap
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
