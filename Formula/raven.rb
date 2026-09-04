@@ -13,9 +13,9 @@
 class Raven < Formula
   desc "Static analyzer for the R language (LSP server + CLI)"
   homepage "https://github.com/jbearak/raven"
-  url "https://github.com/jbearak/raven/releases/download/v0.19.0/raven-macos-arm64.zip"
-  version "0.19.0"
-  sha256 "e48c2c2323ba118f8caba267bcd6a2925c2bfb8df65350d037ed29ae46a14bd6"
+  url "https://github.com/jbearak/raven/releases/download/v0.20.1/raven-macos-arm64.zip"
+  version "0.20.1"
+  sha256 "dfd0fdb7661001aa100971ce1c71eb3cb855bee64dd9788ec8678a07e9359976"
   license "GPL-3.0-or-later"
 
   # Drives `brew livecheck` / `brew bump` off the upstream GitHub releases.
