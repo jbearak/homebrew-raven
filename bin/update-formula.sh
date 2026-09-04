@@ -27,15 +27,16 @@ SHA_ARM="$(sha "$ARM_ZIP")"
 [[ "$SHA_ARM" =~ ^[0-9a-f]{64}$ ]] || { echo "not a sha256: $SHA_ARM" >&2; exit 1; }
 
 perl -0pi -e "s{/download/v[0-9][^/]*/}{/download/v$VERSION/}g" "$FORMULA"
-perl -0pi -e "s/^  version \"[^\"]+\"/  version \"$VERSION\"/m" "$FORMULA"
-# Single arch ⇒ exactly one sha256 line in the formula; replace it directly
-# (the canonical `brew style` order puts `version` between `url` and `sha256`,
-# so do not assume url/sha256 adjacency).
+# Homebrew derives the stable version from the release URL. Remove an explicit
+# version left by an older formula so `brew audit --strict` does not reject it
+# as redundant.
+perl -0pi -e 's/^  version "[^"]+"\n//m' "$FORMULA"
+# Single arch means exactly one sha256 line in the formula; replace it directly.
 perl -pi -e "s/^  sha256 \"[0-9a-f]{64}\"/  sha256 \"$SHA_ARM\"/" "$FORMULA"
 
 # Post-conditions — any failure means the formula shape changed; do not ship it.
 err=0
-[[ "$(grep -c "version \"$VERSION\"" "$FORMULA")" -eq 1 ]] || { echo "version not set exactly once" >&2; err=1; }
+! grep -qE '^  version ' "$FORMULA" || { echo "explicit version must remain absent" >&2; err=1; }
 [[ "$(grep -c "download/v$VERSION/" "$FORMULA")" -eq 1 ]] || { echo "expected exactly 1 versioned URL" >&2; err=1; }
 [[ "$(grep -cE '^  sha256 ' "$FORMULA")" -eq 1 ]] || { echo "expected exactly 1 sha256 line" >&2; err=1; }
 grep -q "$SHA_ARM" "$FORMULA" || { echo "arm64 sha256 not written" >&2; err=1; }

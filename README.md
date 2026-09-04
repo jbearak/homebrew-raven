@@ -54,7 +54,8 @@ attestations.)
 The `bump-homebrew` job in [`jbearak/raven`](https://github.com/jbearak/raven)
 runs after each `v*` release is published, recomputes the Apple Silicon sha256
 from the release artifact, and opens a **PR** against this repo bumping
-`version` and the checksum. CI on that PR (`brew audit`/`install`/`test`) must
+the versioned URL and checksum. Homebrew derives the formula version from that
+URL. CI on the PR (`brew audit`/`install`/`test`) must
 pass before it merges — a broken formula never reaches users via a silent push.
 
 ## Rollback / bad release
@@ -63,7 +64,7 @@ pass before it merges — a broken formula never reaches users via a silent push
   silently replacing a zip will make `brew` refuse it (checksum mismatch) rather
   than ship a swapped binary.
 - To pull a bad version, **revert the formula PR** (or commit) to the previous
-  `version` + checksum, or cut a new patch release upstream and let the bump PR
+  URL + checksum, or cut a new patch release upstream and let the bump PR
   carry the fix forward.
 - For a formula-only fix against the *same* upstream version (no URL/sha
   change), bump the formula `revision` so clients reinstall.
