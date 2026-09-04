@@ -1,8 +1,8 @@
 # Binary-download formula: installs the prebuilt `raven` from a GitHub Release
 # zip (built by jbearak/raven's release-build.yml). This is NOT a Homebrew
 # bottle and NOT a build-from-source formula — `brew install` just extracts the
-# release archive and drops the binary into the keg. Version + sha256 are kept
-# current automatically by the `bump-homebrew` job in jbearak/raven, which opens
+# release archive and drops the binary into the keg. The URL version and sha256
+# are kept current by the `bump-homebrew` job in jbearak/raven, which opens
 # a PR here on every `v*` release.
 #
 # Apple Silicon (arm64) only — Intel macOS is intentionally unsupported.
@@ -13,9 +13,8 @@
 class Raven < Formula
   desc "Static analyzer for the R language (LSP server + CLI)"
   homepage "https://github.com/jbearak/raven"
-  url "https://github.com/jbearak/raven/releases/download/v0.19.0/raven-macos-arm64.zip"
-  version "0.19.0"
-  sha256 "e48c2c2323ba118f8caba267bcd6a2925c2bfb8df65350d037ed29ae46a14bd6"
+  url "https://github.com/jbearak/raven/releases/download/v0.20.1/raven-macos-arm64.zip"
+  sha256 "dfd0fdb7661001aa100971ce1c71eb3cb855bee64dd9788ec8678a07e9359976"
   license "GPL-3.0-or-later"
 
   # Drives `brew livecheck` / `brew bump` off the upstream GitHub releases.
